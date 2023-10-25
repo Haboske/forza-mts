@@ -1,142 +1,101 @@
-score = 0
+$(document).ready(function(){
 
-//Question 1
-$(document).click(function(){
-    $q1a1 = $(".question1:checked").val()
-});
+    // On récupère notre storage local pour liste de score
+    score_list_storage = localStorage.getItem('score_list')
 
-$('.form1 button').click(function(){
-    if ($q1a1 == 3){
-        score=score+1
-        console.log(score)
-    }   
-    else{
-        console.log("Mauvaise Réponse")
-    }
-})
+    const myJSON = '{"scores": [{"player_name": "John Doe","score": 0}]}'
+    const myObj = JSON.parse(myJSON);
 
-//Question 2
-$(document).click(function(){
-    $q2a1 = $(".question2:checked").val()
-});
-$('form2 button').click(function(){
-    if (q2a1 == 3){
-        score=score+1
-        console.log(score)
-    }
-    else{
-        console.log("Mauvaise Réponse")
-    }
-});
+    myObj.scores.push({
+        player_name: 'azeae',
+        score: 123,
+        // or any other data we want to add in that object
+     });
 
-//Question 3
-$(document).click(function(){
-    $q3a1 = $(".question3:checked").val()
-});
-$('.form3 button').click(function(){
-    if (q3a1 == 4){
-        score=score+1
-        console.log(score)
-    }
-    else{
-        console.log("Mauvaise Réponse")
-    }
-});
 
-//Question 4
-$(document).click(function(){
-    $q4a1 = $(".question4:checked").val()
-});
-$('.form3 button').click(function(){
-    if (q4a1 == 3){
-        score=score+1
-        console.log(score)
-    }
-    else{
-        console.log("Mauvaise Réponse")
-    }
-});
+    // Avant de continuer on s'assure que la liste de score existe ou non
 
-//Question 5
-$(document).click(function(){
-    $q5a1 = $(".question5:checked").val()
-});
-$('.form5 button').click(function(){
-    if (q5a1 == 1){
-        score=score+1
-        console.log(score)
-    }
-    else{
-        console.log("Mauvaise Réponse")
-    }
-});
+    // Si elle n'existe pas alors
+    if(score_list_storage == null){
 
-//Question 6
-$(document).click(function(){
-    $q6a1 = $(".question6:checked").val()
-});
-$('.form6 button').click(function(){
-    if (q6a1 == 2){
-        score=score+1
-        console.log(score)
-    }
-    else{
-        console.log("Mauvaise Réponse")
-    }
-});
+        // On vient générer notre liste de score, ainsi que notre iterateur pour lire et écrire dans le tableau sans écrire par dessus des données déjà existantes
 
-//Question 7
-$(document).click(function(){
-    $q7a1 = $(".question7:checked").val()
-});
-$('.form7 button').click(function(){
-    if (q7a1 == 2){
-        score=score+1
-        console.log(score)
-    }
-    else{
-        console.log("Mauvaise Réponse")
-    }
-});
+        localStorage.setItem('score_list','{"scores": [{"player_name": "John Doe","score": 0}]}');
 
-//Question 8
-$(document).click(function(){
-    $q8a1 = $(".question8:checked").val()
-});
-$('.form8 button').click(function(){
-    if (q8a1 == 3){
-        score=score+1
-        console.log(score)
     }
-    else{
-        console.log("Mauvaise Réponse")
-    }
-});
+    else // Autrement, alors
+    {
 
-//Question 9
-$(document).click(function(){
-    $q9a1 = $(".question9:checked").val()
-});
-$('.form9 button').click(function(){
-    if (q9a1 == 2){
-        score=score+1
-        console.log(score)
-    }
-    else{
-        console.log("Mauvaise Réponse")
-    }
-});
+        // On vient adapter nos données qui sont en format string vers un format json
+        score_list = JSON.parse(localStorage.getItem('score_list'));
+        // On s'assure de bien avoir récupérer les données existantes en les affichants dans la console.
 
-//Question 10
-$(document).click(function(){
-    $q10a1 = $(".question10:checked").val()
-});
-$('.form10 button').click(function(){
-    if (q10a1 == 2){
-        score=score+1
-        console.log(score)
+        console.log('voici la liste actuel des score :');
+        console.log(score_list.scores);
     }
-    else{
-        console.log("Mauvaise Réponse")
-    }
+
+    $('.sent').click(function(){
+
+        playername = $('.player_name').val();
+        score = $('.player_score').val();
+
+        if(playername.length !== 0 && score.length !== 0){
+
+            console.log('donnée ok');
+
+            score_list.scores.push({
+                player_name: playername,
+                score: score,
+             });
+
+            console.log(score_list.scores);
+
+            localStorage.setItem('score_list',JSON.stringify(score_list));
+
+        }
+        else
+        {
+            alert('rentre correctement tes données sarazin !');
+        }
+
+
+    });
+
+    $('#btn').click(function(){
+
+        $("#container").empty();
+
+        let container = $("#container");
+        let table = $("<table>");
+        let cols = Object.keys(score_list.scores[0]);
+        let thead = $("<thead>");
+        let tr = $("<tr>");
+
+
+        // Loop through the column names and create header cells
+        $.each(cols, function(i, item){
+            let th = $("<th>");
+            th.text(item); // Set the column name as the text of the header cell
+            tr.append(th); // Append the header cell to the header row
+         });
+         thead.append(tr); // Append the header row to the header
+         table.append(tr) // Append the header to the table
+
+         $.each(score_list.scores, function(i, item){
+            let tr = $("<tr>");
+               
+               // Get the values of the current object in the JSON data
+               let vals = Object.values(item);
+               
+               // Loop through the values and create table cells
+               $.each(vals, (i, elem) => {
+                  let td = $("<td>");
+                  td.text(elem); // Set the value as the text of the table cell
+                  tr.append(td); // Append the table cell to the table row
+               });
+               table.append(tr); // Append the table row to the table
+            });
+            container.append(table) // Append the table to the container element
+    });
+
 });
