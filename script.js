@@ -1,3 +1,25 @@
+//Importe le module 'fs' pour travailler avec le fichier JSON
+const fs = require('fs');
+
+// Lire le contenu du fichier JSON
+const data = fs.readFileSync('data.json');
+//Convertit le JSON en javaScript object
+const jsonData = JSON.parse(data);
+
+//Modifie le javaScript Object en ajoutant les nouvelles data
+jsonData.users.push({
+  user_name: 
+  score:
+});
+
+//Convertit le javaScript Object en JSON
+const jsonString = JSON.stringify(jsonData);
+
+//Écrit les données dans le JSON
+fs.writeFileSync('data.json',jsonString, 'utf-8', (err) => {
+  if (err) throw err;
+  console.logt('Data added to file');
+});
 
 
 
