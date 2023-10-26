@@ -253,7 +253,7 @@ $('#question2_button').click(function(){
     else if (typeof $answer3 !== 'undefined' && $('#question3_button').val() !== 'finished'){
       
       // Si il s'agit de la bonne réponse
-      if ($answer3 == 3){
+      if ($answer3 == 4){
 
         // Alors on augmente le score de 1
         $score = $score+1
@@ -423,7 +423,7 @@ $('#question4_button').click(function(){
     else if (typeof $answer3 !== 'undefined' && $('#question5_button').val() !== 'finished'){
       
       // Si il s'agit de la bonne réponse
-      if ($answer5 == 3){
+      if ($answer5 == 1){
 
         // Alors on augmente le score de 1
         $score = $score+1
@@ -508,7 +508,7 @@ $('#question5_button').click(function(){
     else if (typeof $answer6 !== 'undefined' && $('#question6_button').val() !== 'finished'){
       
       // Si il s'agit de la bonne réponse
-      if ($answer6 == 3){
+      if ($answer6 == 2){
 
         // Alors on augmente le score de 1
         $score = $score+1
@@ -593,7 +593,7 @@ $('#question6_button').click(function(){
     else if (typeof $answer7 !== 'undefined' && $('#question7_button').val() !== 'finished'){
       
       // Si il s'agit de la bonne réponse
-      if ($answer7 == 3){
+      if ($answer7 == 2){
 
         // Alors on augmente le score de 1
         $score = $score+1
@@ -763,7 +763,7 @@ $('#question8_button').click(function(){
     else if (typeof $answer9 !== 'undefined' && $('#question9_button').val() !== 'finished'){
       
       // Si il s'agit de la bonne réponse
-      if ($answer9 == 3){
+      if ($answer9 == 1, 4){
 
         // Alors on augmente le score de 1
         $score = $score+1
@@ -848,7 +848,7 @@ $('#question9_button').click(function(){
     else if (typeof $answer10 !== 'undefined' && $('#question10_button').val() !== 'finished'){
       
       // Si il s'agit de la bonne réponse
-      if ($answer10 == 3){
+      if ($answer10 == 2){
 
         // Alors on augmente le score de 1
         $score = $score+1
