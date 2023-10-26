@@ -1,34 +1,45 @@
-//Importe le module 'fs' pour travailler avec le fichier JSON
-const fs = require('fs');
-
-// Lire le contenu du fichier JSON
-const data = fs.readFileSync('data.json');
-//Convertit le JSON en javaScript object
-const jsonData = JSON.parse(data);
-
-//Modifie le javaScript Object en ajoutant les nouvelles data
-jsonData.users.push({
-  user_name: 
-  score:
-});
-
-//Convertit le javaScript Object en JSON
-const jsonString = JSON.stringify(jsonData);
-
-//Écrit les données dans le JSON
-fs.writeFileSync('data.json',jsonString, 'utf-8', (err) => {
-  if (err) throw err;
-  console.logt('Data added to file');
-});
 
 
 
 $(document).ready(function(){
-  //('.quizz_intro').hide(0)
-  //('.quizz_form').show(0)
-  //$('.form1').show(0).css({"display":"flex"})
+  //$('.quizz_intro').hide(0);
+  //$('.quizz_outro').show(0);
 
   $score = 0
+
+  // On récupère notre storage local pour liste de score
+  score_list_storage = localStorage.getItem('score_list')
+
+  const myJSON = '{"scores": [{"player_name": "John Doe","score": 0}]}'
+  const myObj = JSON.parse(myJSON);
+
+  myObj.scores.push({
+      player_name: 'azeae',
+      score: 123,
+        // or any other data we want to add in that object
+  });
+
+
+  // Avant de continuer on s'assure que la liste de score existe ou non
+
+  // Si elle n'existe pas alors
+  if(score_list_storage == null){
+
+    // On vient générer notre liste de score, ainsi que notre iterateur pour lire et écrire dans le tableau sans écrire par dessus des données déjà existantes
+    localStorage.setItem('score_list','{"scores": [{"player_name": "John Doe","score": 0}]}');
+
+  }
+  else // Autrement, alors
+  {
+
+    // On vient adapter nos données qui sont en format string vers un format json
+    score_list = JSON.parse(localStorage.getItem('score_list'));
+    // On s'assure de bien avoir récupérer les données existantes en les affichants dans la console.
+
+    console.log('voici la liste actuel des score :');
+    console.log(score_list.scores);
+  
+  }
 
 
   $('.quizz_intro_button').click(function(){
@@ -40,6 +51,10 @@ $(document).ready(function(){
     setTimeout(function(){ $('.quizz_intro').hide(0); },1000);
     setTimeout(function(){ $('.quizz_form').show(0); },1000);
     setTimeout(function(){ $('.form1').show(0).css({"display":"flex"}); },1000);
+
+    setTimeout(function(){ $('.quizz_intro h1').attr('style',' '); },1000);
+    setTimeout(function(){ $('.quizz_intro p').attr('style',' '); },1000);
+    setTimeout(function(){ $('.quizz_intro button').attr('style',' '); },1000);
   })
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -886,9 +901,89 @@ $('#question10_button').click(function(){
     setTimeout(function(){ $('.form10 feedback').css({'opacity':'0','transition':'0.3s ease'}); },300);
     setTimeout(function(){ $('.form10 button').css({'opacity':'0','transition':'0.3s ease'}); },400);
     
-    //Et on fait apparaitre la question 6
+    //Et on fait apparaitre l'outro'
+    setTimeout(function(){ $('.quizz_form').hide(0); },1000);
     setTimeout(function(){ $('.form10').hide(0); },1000);
+    setTimeout(function(){ $('.quizz_outro').show(0); },1000);
+    $('.result_display').text($score);
+
   }
 })
+
+
+
+$('.next_button').click(function(){
+
+    playername = $('input.playername').val();
+
+    if(playername.length !== 0){
+
+      console.log('donnée ok');
+
+      score_list.scores.push({
+          player_name: playername,
+          score: $score,
+       });
+
+      console.log(score_list.scores);
+
+      localStorage.setItem('score_list',JSON.stringify(score_list));
+
+      $("#container").empty();
+
+      let container = $("#container");
+      let table = $("<table>");
+      let cols = Object.keys(score_list.scores[0]);
+      let thead = $("<thead>");
+      let tr = $("<tr>");
+
+      $.each(cols, function(i, item){
+        let th = $("<th class='score_"+item+"'>");
+        th.text(item); // Set the column name as the text of the header cell
+        tr.append(th); // Append the header cell to the header row
+      });
+      thead.append(tr); // Append the header row to the header
+      table.append(tr) // Append the header to the table
+
+      $.each(score_list.scores, function(i, item){
+        let tr = $("<tr class='elem_"+i+"'>");
+        
+        // Get the values of the current object in the JSON data
+        let vals = Object.values(item);
+        
+        // Loop through the values and create table cells
+        $.each(vals, (i, elem) => {
+            let td = $("<td>");
+            td.text(elem); // Set the value as the text of the table cell
+            tr.append(td); // Append the table cell to the table row
+        });
+        table.append(tr); // Append the table row to the table
+        });
+        container.append(table) // Append the table to the container element;
+
+        $('.quizz_outro_player_result').hide(0);
+        $('.quizz_outro_score_table').show(0).css({"display":"flex"});
+
+        $('.elem_0').hide(0);
+        $('.score_player_name').text('Pseudo');
+        $('.score_score').text('Score')
+  }
+  else
+  {
+      alert('rentre correctement tes données sarazin !');
+  }
+
+  $('.restart').click(function(){
+
+    location.reload(); 
+
+
+  });
+
+  $('.quit').click(function(){
+    console.log('quit');
+  });
+
+});
 
 });

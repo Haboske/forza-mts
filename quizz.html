@@ -715,12 +715,36 @@
 
 
                     <div class="button_right_margin">
-                        <button name="question10" value="validate" id="question9_button">Valider ma réponse</button> 
+                        <button name="question10" value="validate" id="question10_button">Valider ma réponse</button> 
                     </div>
     
+                    
                 </div>
             </div>
-        </div>    
+        </div>  
+        <div class="quizz_outro">
+
+            <div class="quizz_outro_player_result">
+                <h2>Questionnaire terminé !</h2>
+                <p class="score_display">Ton score est <span class="result_display"></span></p>
+
+                <div class="player_info_input">
+                    <label>Quel est ton pseudo ?</label>
+                    <input type="text" class="playername">
+                    <p class="player_info_nb">Une fois ton pseudo renseigné tu peux cliquer sur le bouton 'suivant'</p>
+                </div>
+
+                <button class="next_button">Suivant</button>
+            </div>
+
+            <div class="quizz_outro_score_table">
+                <h2>Voilà le tableau des scores :</h2>
+                <div id="container"></div>
+
+                <button class="restart">Redémarrer le quizz</button>
+            </div>
+
+        </div>  
     </div>
 </body>
 </html>

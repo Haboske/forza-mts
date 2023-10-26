@@ -250,6 +250,76 @@ body{
                     width: 50px;
                     height: 50px;
                 }
+        
+        .quizz_outro{
+          display: none;
+          z-index: 100;
+          color: black;
+          font-family: Gabarito;
+        }
+          .quizz_outro h2{
+            font-size: 60px;
+          }
+          .score_display{
+            font-size: 25px;
+            font-weight: 600;
+          }
+            .result_display{
+              color: red;
+            }
+          .player_info_input{
+            display: flex;
+            flex-direction: column;
+          }
+            .player_info_input label{
+              font-size: 23px;
+            }
+            .player_info_input input{
+              height: 40px;
+              padding: 0 20px;
+              font-family: Gabarito;
+              color: black;
+              font-size: 20px;
+              border-radius: 12px;
+              border: 2px solid grey;
+              box-shadow: none;
+            }
+            .player_info_nb{
+              font-size: 14px;
+              color: grey
+            }
+          .quizz_outro_player_result{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+          }
+            .quizz_outro button{
+              width: fit-content;
+              padding: 10px 15px;
+              border-radius: 12px;
+              border: 2px solide black;
+              background-color: black;
+              color:  white;
+            }
+          .quizz_outro_score_table{
+            display: none;
+            flex-direction: column;
+            gap:  20px;
+          }
+          
+          
+          .quizz_outro table{
+            border: 2px solid black;
+            border-radius: 12px;
+            padding: 20px 20px;
+            font-size: 40px;
+            border-spacing: 20px;
+          }
+     
+  th, td{
+    margin-right: 20px;
+  }
+
 
 @media only screen and (max-width: 768px){
   body{
@@ -285,6 +355,8 @@ body{
         .quizz_form_question p{
           font-size: 30px;
         }
+
+
       
 }
   
