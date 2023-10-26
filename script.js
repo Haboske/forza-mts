@@ -980,10 +980,6 @@ $('.next_button').click(function(){
 
   });
 
-  $('.quit').click(function(){
-    console.log('quit');
-  });
-
 });
 
 });
