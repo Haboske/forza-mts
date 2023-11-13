@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quizz</title>
-    <link rel="stylesheet" href="quizz.css">
+    <link rel="stylesheet" href="content/css/quizz.css">
 </head>
 <body>
     <div class="quizz_popup">
@@ -749,5 +749,5 @@
 </body>
 </html>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script src="minified.js"></script>
+<script src="script/minified_quizz.js"></script>
 <script src="https://cdn.lordicon.com/lordicon-1.1.0.js"></script>
