@@ -1,3 +1,13 @@
+
+
+var answers = goodanswers;
+console.log(answers);
+$('#jsonDatas').remove();
+
+console.log(answers[2]);
+
+var question_number = 1;
+
 // Création de la fonction qui nous permet de vérifier les réponses
 function checkAnswer(question_number,correct_Answer,user_Answer,score){
   if(typeof user_Answer == 'undefined'){
@@ -135,23 +145,84 @@ $(document).ready(function(){
   /////////////////////////
   // ON RECUPERE LA VALEUR DE L'INPUT
   /////////////////////////
+// Pour vérifier les réponses multiples de manière dynamique  on va créer un tableau qui contient les réponses cochés par le joueur
+var question_number = 1;
+var player_answers = Array();
+if($('.form1').attr('data-type') == 'QCM')
+{
+  console.log('nouveau formulaire');
+  $('#question1_button').click(function(){
+    console.log('QCM');
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question1_answer1').is(':checked'))
+    {
+      player_answers[1] = '1';
+    }
+    if($('#question1_answer2').is(':checked'))
+    {
+      player_answers[2] = '2';
+    }
+    if($('#question1_answer3').is(':checked'))
+    {
+      player_answers[3] = '3';
+    }
+    if($('#question1_answer4').is(':checked'))
+    {
+      player_answers[4] = '4';
+    }
+    // Ensuite on va transformer ce tableau en une chaine de caractère pour pouvoir comparer les réponses du joueur avec les bonnes du quizz
+    player_final_answer = player_answers.join('');
+    console.log('réponse joueur '+player_final_answer);
+    console.log('réponse valide '+answers[1]['question_goodrep']);
 
-  $('.form1').click(function(){
-    $answer1 = $('.question1:checked').val()
+    if($('#question1_button').attr('data-status') !== 'over'){
+      if(player_final_answer == answers[1]['question_goodrep'])
+      {
+        $score++;
+
+        // Et on indique au joueur qu'il a choisi la bonne réponse
+        $('.form1 .quizz_form_feedback span').text("C'est ça !");
+  
+        // Ensuite on affiche une animation indiquant qu'il a choisi la bonne réponse
+        setTimeout(function(){ $('.form1 .answer_feedback_true').show(0).css({"opacity":"1"}); },500);
+        
+      }
+      else 
+      {
+        $('.form1 .quizz_form_feedback span').text("Et non !").css({'color':'red'})
+  
+        setTimeout(function(){ $('.form1 .answer_feedback_wrong').show(0).css({"opacity":"1",'transition':'0.3s ease-out'}); },500);
+      }
+
+      // On cache les réponses
+      $('.form1 .quizz_form_answer').css({"transition":"0.3s ease","opacity":"0"})
+      setTimeout(function(){ $('.form1 .quizz_form_answer').hide(0); },500);
+
+      // On affiche le résultat
+      setTimeout(function(){ $('.form1 .quizz_form_feedback, .form1 .quizz_form_feedback span,.form1 .quizz_form_feedback feedback').show(0).css({'opacity':'1','transition':'0.3s ease-out'})},500)
+
+      // On change le texte du bouton et on indique qu'au prochain clique on passe a la question suivante
+      setTimeout(function(){ $('.form1 #question1_button').text('Prochaine question').attr( 'data-status' , 'over' )},1)
+
+    }
+    });
+} else if ($('.form'+1).attr('data-type') == 'QCU')
+{
+  $('.form'+1).click(function(){
+    answer = $('.question1:checked').val()
+    console.log('réponse selectionés');
   });
 
-  /////////////////////////
-  // ENSUITE ON LA COMPARE 
-  //ET ON EFFECTUE NOS ACTIONS EN FONCTION DE LA VALEUR
-  /////////////////////////
-
   $('#question1_button').click(function(){
+    console.log('bouton cliqué');
+    console.log(answers[1]['question_goodrep']);
     // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
     if($('#question1_button').attr('data-status') !== 'over'){
-      $score = checkAnswer(1,3,$answer1,$score);
+      $score = checkAnswer(1,answers[1]['question_goodrep'],answer,$score);
     }
     
   });
+}
 
 ///////////////////////////////////////////////
 // FONCTION POUR PASSER A LA DEUXIEME QUESTION
@@ -161,279 +232,900 @@ $(document).ready(function(){
     // On s'assure que la réponse à bien été vérifier et qu'on considère le status de cette question  comme terminé pour passer à la suite
     if($('#question1_button').attr('data-status') == 'over'){
       nextQuestion(1);
+      player_answers = Array();
+      console.log('le score est de '+$score);
     }
   });
 
+
 //////////////////////////////////////////////////////////////////////////////////////////////
-// SCRIPT CONCERNAN LA QUESTION 2 DU FORMULAIRE 
+// SCRIPT CONCERNAN LA QUESTION 1 DU FORMULAIRE 
 //////////////////////////////////////////////////////////////////////////////////////////////
-//2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2   2    
+//2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2   
   /////////////////////////
   // ON RECUPERE LA VALEUR DE L'INPUT
   /////////////////////////
-
-  $('.form2').click(function(){
-    $answer2 = $('.question2:checked').val()
-  });
-
+// Pour vérifier les réponses multiples de manière dynamique  on va créer un tableau qui contient les réponses cochés par le joueur
+var player_answers = Array();
+if($('.form2').attr('data-type') == 'QCM')
+{
+  console.log('nouveau formulaire');
   $('#question2_button').click(function(){
-    if($('#question2_button').attr('data-status') !== 'over'){
-      $score = checkAnswer(2,3,$answer2,$score);
+    console.log('QCM');
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question2_answer1').is(':checked'))
+    {
+      player_answers[2] = '1';
     }
+    if($('#question2_answer2').is(':checked'))
+    {
+      player_answers[2] = '2';
+    }
+    if($('#question2_answer3').is(':checked'))
+    {
+      player_answers[3] = '3';
+    }
+    if($('#question2_answer4').is(':checked'))
+    {
+      player_answers[4] = '4';
+    }
+    // Ensuite on va transformer ce tableau en une chaine de caractère pour pouvoir comparer les réponses du joueur avec les bonnes du quizz
+    player_final_answer = player_answers.join('');
+    console.log('réponse joueur '+player_final_answer);
+    console.log('réponse valide '+answers[2]['question_goodrep']);
+
+    if($('#question2_button').attr('data-status') !== 'over'){
+      if(player_final_answer == answers[2]['question_goodrep'])
+      {
+        $score++;
+
+        // Et on indique au joueur qu'il a choisi la bonne réponse
+        $('.form2 .quizz_form_feedback span').text("C'est ça !");
+  
+        // Ensuite on affiche une animation indiquant qu'il a choisi la bonne réponse
+        setTimeout(function(){ $('.form2 .answer_feedback_true').show(0).css({"opacity":"1"}); },500);
+        
+      }
+      else 
+      {
+        $('.form2 .quizz_form_feedback span').text("Et non !").css({'color':'red'})
+  
+        setTimeout(function(){ $('.form2 .answer_feedback_wrong').show(0).css({"opacity":"1",'transition':'0.3s ease-out'}); },500);
+      }
+
+      // On cache les réponses
+      $('.form2 .quizz_form_answer').css({"transition":"0.3s ease","opacity":"0"})
+      setTimeout(function(){ $('.form2 .quizz_form_answer').hide(0); },500);
+
+      // On affiche le résultat
+      setTimeout(function(){ $('.form2 .quizz_form_feedback, .form2 .quizz_form_feedback span,.form2 .quizz_form_feedback feedback').show(0).css({'opacity':'1','transition':'0.3s ease-out'})},500)
+
+      // On change le texte du bouton et on indique qu'au prochain clique on passe a la question suivante
+      setTimeout(function(){ $('.form2 #question2_button').text('Prochaine question').attr( 'data-status' , 'over' )},1)
+
+    }
+    });
+} else if ($('.form'+2).attr('data-type') == 'QCU')
+{
+  $('.form'+2).click(function(){
+    answer = $('.question2:checked').val()
+    console.log('réponse selectionés');
   });
 
   $('#question2_button').click(function(){
+    console.log('bouton cliqué');
+    console.log(answers[2]['question_goodrep']);
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question2_button').attr('data-status') !== 'over'){
+      $score = checkAnswer(2,answers[2]['question_goodrep'],answer,$score);
+    }
+    
+  });
+}
+
+///////////////////////////////////////////////
+// FONCTION POUR PASSER A LA PROCHAINE QUESTION
+///////////////////////////////////////////////
+
+  $('#question2_button').click(function(){
+    // On s'assure que la réponse à bien été vérifier et qu'on considère le status de cette question  comme terminé pour passer à la suite
     if($('#question2_button').attr('data-status') == 'over'){
       nextQuestion(2);
+      player_answers = Array();
+      console.log('le score est de '+$score);
+
     }
   });
 
+  //////////////////////////////////////////////////////////////////////////////////////////////
+// SCRIPT CONCERNAN LA QUESTION 1 DU FORMULAIRE 
 //////////////////////////////////////////////////////////////////////////////////////////////
-// SCRIPT CONCERNAN LA QUESTION 3 DU FORMULAIRE 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   3   
+//3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
   /////////////////////////
   // ON RECUPERE LA VALEUR DE L'INPUT
   /////////////////////////
-
-  $('.form3').click(function(){
-    $answer3 = $('.question3:checked').val()
-  });
-
+// Pour vérifier les réponses multiples de manière dynamique  on va créer un tableau qui contient les réponses cochés par le joueur
+var player_answers = Array();
+if($('.form3').attr('data-type') == 'QCM')
+{
+  console.log('nouveau formulaire');
   $('#question3_button').click(function(){
-    if($('#question3_button').attr('data-status') !== 'over'){
-      $score = checkAnswer(3,4,$answer3,$score);
+    console.log('QCM');
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question3_answer1').is(':checked'))
+    {
+      player_answers[1] = '1';
     }
+    if($('#question3_answer2').is(':checked'))
+    {
+      player_answers[2] = '2';
+    }
+    if($('#question3_answer3').is(':checked'))
+    {
+      player_answers[3] = '3';
+    }
+    if($('#question3_answer4').is(':checked'))
+    {
+      player_answers[4] = '4';
+    }
+    // Ensuite on va transformer ce tableau en une chaine de caractère pour pouvoir comparer les réponses du joueur avec les bonnes du quizz
+    player_final_answer = player_answers.join('');
+    console.log('réponse joueur '+player_final_answer);
+    console.log('réponse valide '+answers[3]['question_goodrep']);
+
+    if($('#question3_button').attr('data-status') !== 'over'){
+      if(player_final_answer == answers[3]['question_goodrep'])
+      {
+        $score++;
+
+        // Et on indique au joueur qu'il a choisi la bonne réponse
+        $('.form3 .quizz_form_feedback span').text("C'est ça !");
+  
+        // Ensuite on affiche une animation indiquant qu'il a choisi la bonne réponse
+        setTimeout(function(){ $('.form3 .answer_feedback_true').show(0).css({"opacity":"1"}); },500);
+        
+      }
+      else 
+      {
+        $('.form3 .quizz_form_feedback span').text("Et non !").css({'color':'red'})
+  
+        setTimeout(function(){ $('.form3 .answer_feedback_wrong').show(0).css({"opacity":"1",'transition':'0.3s ease-out'}); },500);
+      }
+
+      // On cache les réponses
+      $('.form3 .quizz_form_answer').css({"transition":"0.3s ease","opacity":"0"})
+      setTimeout(function(){ $('.form3 .quizz_form_answer').hide(0); },500);
+
+      // On affiche le résultat
+      setTimeout(function(){ $('.form3 .quizz_form_feedback, .form3 .quizz_form_feedback span,.form3 .quizz_form_feedback feedback').show(0).css({'opacity':'1','transition':'0.3s ease-out'})},500)
+
+      // On change le texte du bouton et on indique qu'au prochain clique on passe a la question suivante
+      setTimeout(function(){ $('.form3 #question3_button').text('Prochaine question').attr( 'data-status' , 'over' )},1)
+
+    }
+    });
+} else if ($('.form'+3).attr('data-type') == 'QCU')
+{
+  $('.form'+3).click(function(){
+    answer = $('.question3:checked').val()
+    console.log('réponse selectionés');
   });
 
   $('#question3_button').click(function(){
+    console.log('bouton cliqué');
+    console.log(answers[3]['question_goodrep']);
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question3_button').attr('data-status') !== 'over'){
+      $score = checkAnswer(3,answers[3]['question_goodrep'],answer,$score);
+    }
+    
+  });
+}
+
+///////////////////////////////////////////////
+// FONCTION POUR PASSER A LA PROCHAINE QUESTION
+///////////////////////////////////////////////
+
+  $('#question3_button').click(function(){
+    // On s'assure que la réponse à bien été vérifier et qu'on considère le status de cette question  comme terminé pour passer à la suite
     if($('#question3_button').attr('data-status') == 'over'){
       nextQuestion(3);
+      player_answers = Array();
+      console.log('le score est de '+$score);
     }
   });
 
+    //////////////////////////////////////////////////////////////////////////////////////////////
+// SCRIPT CONCERNAN LA QUESTION 1 DU FORMULAIRE 
 //////////////////////////////////////////////////////////////////////////////////////////////
-// SCRIPT CONCERNAN LA QUESTION 4 DU FORMULAIRE 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//4   4   4   4    4   4   4   4    4   4   4   4    4   4   4   4    4   4   4   4    4   4   4   4    
+//4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
   /////////////////////////
   // ON RECUPERE LA VALEUR DE L'INPUT
   /////////////////////////
-
-  $('.form4').click(function(){
-    $answer4 = $('.question4:checked').val()
-  });
-
+// Pour vérifier les réponses multiples de manière dynamique  on va créer un tableau qui contient les réponses cochés par le joueur
+var player_answers = Array();
+if($('.form4').attr('data-type') == 'QCM')
+{
+  console.log('nouveau formulaire');
   $('#question4_button').click(function(){
-    if($('#question4_button').attr('data-status') !== 'over'){
-      $score = checkAnswer(4,3,$answer4,$score);
+    console.log('QCM');
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question4_answer1').is(':checked'))
+    {
+      player_answers[1] = '1';
     }
+    if($('#question4_answer2').is(':checked'))
+    {
+      player_answers[2] = '2';
+    }
+    if($('#question4_answer3').is(':checked'))
+    {
+      player_answers[3] = '3';
+    }
+    if($('#question4_answer4').is(':checked'))
+    {
+      player_answers[4] = '4';
+    }
+    // Ensuite on va transformer ce tableau en une chaine de caractère pour pouvoir comparer les réponses du joueur avec les bonnes du quizz
+    player_final_answer = player_answers.join('');
+    console.log('réponse joueur '+player_final_answer);
+    console.log('réponse valide '+answers[4]['question_goodrep']);
+
+    if($('#question4_button').attr('data-status') !== 'over'){
+      if(player_final_answer == answers[4]['question_goodrep'])
+      {
+        $score++;
+
+        // Et on indique au joueur qu'il a choisi la bonne réponse
+        $('.form4 .quizz_form_feedback span').text("C'est ça !");
+  
+        // Ensuite on affiche une animation indiquant qu'il a choisi la bonne réponse
+        setTimeout(function(){ $('.form4 .answer_feedback_true').show(0).css({"opacity":"1"}); },500);
+        
+      }
+      else 
+      {
+        $('.form4 .quizz_form_feedback span').text("Et non !").css({'color':'red'})
+  
+        setTimeout(function(){ $('.form4 .answer_feedback_wrong').show(0).css({"opacity":"1",'transition':'0.3s ease-out'}); },500);
+      }
+
+      // On cache les réponses
+      $('.form4 .quizz_form_answer').css({"transition":"0.3s ease","opacity":"0"})
+      setTimeout(function(){ $('.form4 .quizz_form_answer').hide(0); },500);
+
+      // On affiche le résultat
+      setTimeout(function(){ $('.form4 .quizz_form_feedback, .form4 .quizz_form_feedback span,.form4 .quizz_form_feedback feedback').show(0).css({'opacity':'1','transition':'0.3s ease-out'})},500)
+
+      // On change le texte du bouton et on indique qu'au prochain clique on passe a la question suivante
+      setTimeout(function(){ $('.form4 #question4_button').text('Prochaine question').attr( 'data-status' , 'over' )},1)
+
+    }
+    });
+} else if ($('.form'+4).attr('data-type') == 'QCU')
+{
+  $('.form'+4).click(function(){
+    answer = $('.question4:checked').val()
+    console.log('réponse selectionés');
   });
 
   $('#question4_button').click(function(){
+    console.log('bouton cliqué');
+    console.log(answers[4]['question_goodrep']);
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question4_button').attr('data-status') !== 'over'){
+      $score = checkAnswer(4,answers[4]['question_goodrep'],answer,$score);
+    }
+    
+  });
+}
+
+///////////////////////////////////////////////
+// FONCTION POUR PASSER A LA PROCHAINE QUESTION
+///////////////////////////////////////////////
+
+  $('#question4_button').click(function(){
+    // On s'assure que la réponse à bien été vérifier et qu'on considère le status de cette question  comme terminé pour passer à la suite
     if($('#question4_button').attr('data-status') == 'over'){
       nextQuestion(4);
+      player_answers = Array();
+      console.log('le score est de '+$score);
     }
   });
 
+      //////////////////////////////////////////////////////////////////////////////////////////////
+// SCRIPT CONCERNAN LA QUESTION 1 DU FORMULAIRE 
 //////////////////////////////////////////////////////////////////////////////////////////////
-// SCRIPT CONCERNAN LA QUESTION 5 DU FORMULAIRE 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   5   
+//5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
   /////////////////////////
   // ON RECUPERE LA VALEUR DE L'INPUT
   /////////////////////////
-
-  $('.form5').click(function(){
-    $answer5 = $('.question5:checked').val()
-  });
-
+// Pour vérifier les réponses multiples de manière dynamique  on va créer un tableau qui contient les réponses cochés par le joueur
+var player_answers = Array();
+if($('.form5').attr('data-type') == 'QCM')
+{
+  console.log('nouveau formulaire');
   $('#question5_button').click(function(){
-    if($('#question5_button').attr('data-status') !== 'over'){
-      $score = checkAnswer(5,1,$answer5,$score);
+    console.log('QCM');
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question5_answer1').is(':checked'))
+    {
+      player_answers[1] = '1';
     }
+    if($('#question5_answer2').is(':checked'))
+    {
+      player_answers[2] = '2';
+    }
+    if($('#question5_answer3').is(':checked'))
+    {
+      player_answers[3] = '3';
+    }
+    if($('#question5_answer4').is(':checked'))
+    {
+      player_answers[4] = '4';
+    }
+    // Ensuite on va transformer ce tableau en une chaine de caractère pour pouvoir comparer les réponses du joueur avec les bonnes du quizz
+    player_final_answer = player_answers.join('');
+    console.log('réponse joueur '+player_final_answer);
+    console.log('réponse valide '+answers[5]['question_goodrep']);
+
+    if($('#question4_button').attr('data-status') !== 'over'){
+      if(player_final_answer == answers[5]['question_goodrep'])
+      {
+        $score++;
+
+        // Et on indique au joueur qu'il a choisi la bonne réponse
+        $('.form5 .quizz_form_feedback span').text("C'est ça !");
+  
+        // Ensuite on affiche une animation indiquant qu'il a choisi la bonne réponse
+        setTimeout(function(){ $('.form5 .answer_feedback_true').show(0).css({"opacity":"1"}); },500);
+        
+      }
+      else 
+      {
+        $('.form5 .quizz_form_feedback span').text("Et non !").css({'color':'red'})
+  
+        setTimeout(function(){ $('.form5 .answer_feedback_wrong').show(0).css({"opacity":"1",'transition':'0.3s ease-out'}); },500);
+      }
+
+      // On cache les réponses
+      $('.form5 .quizz_form_answer').css({"transition":"0.3s ease","opacity":"0"})
+      setTimeout(function(){ $('.form5 .quizz_form_answer').hide(0); },500);
+
+      // On affiche le résultat
+      setTimeout(function(){ $('.form5 .quizz_form_feedback, .form5 .quizz_form_feedback span,.form5 .quizz_form_feedback feedback').show(0).css({'opacity':'1','transition':'0.3s ease-out'})},500)
+
+      // On change le texte du bouton et on indique qu'au prochain clique on passe a la question suivante
+      setTimeout(function(){ $('.form5 #question5_button').text('Prochaine question').attr( 'data-status' , 'over' )},1)
+
+    }
+    });
+} else if ($('.form'+5).attr('data-type') == 'QCU')
+{
+  $('.form'+5).click(function(){
+    answer = $('.question5:checked').val()
+    console.log('réponse selectionés');
   });
 
   $('#question5_button').click(function(){
+    console.log('bouton cliqué');
+    console.log(answers[5]['question_goodrep']);
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question5_button').attr('data-status') !== 'over'){
+      $score = checkAnswer(5,answers[5]['question_goodrep'],answer,$score);
+    }
+    
+  });
+}
+
+///////////////////////////////////////////////
+// FONCTION POUR PASSER A LA PROCHAINE QUESTION
+///////////////////////////////////////////////
+
+  $('#question5_button').click(function(){
+    // On s'assure que la réponse à bien été vérifier et qu'on considère le status de cette question  comme terminé pour passer à la suite
     if($('#question5_button').attr('data-status') == 'over'){
       nextQuestion(5);
+      player_answers = Array();
+      console.log('le score est de '+$score);
     }
   });
-  
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+// SCRIPT CONCERNAN LA QUESTION 1 DU FORMULAIRE 
 //////////////////////////////////////////////////////////////////////////////////////////////
-// SCRIPT CONCERNAN LA QUESTION 6 DU FORMULAIRE 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   6   
+//6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 66 6 6 66 6 6 66 6 6 66 6 6 66 6 6 66 6 6 66 6 6 66 6 6 66 6 6 6
   /////////////////////////
   // ON RECUPERE LA VALEUR DE L'INPUT
   /////////////////////////
-
-  $('.form6').click(function(){
-    $answer6 = $('.question6:checked').val()
-  });
-
+// Pour vérifier les réponses multiples de manière dynamique  on va créer un tableau qui contient les réponses cochés par le joueur
+var player_answers = Array();
+if($('.form6').attr('data-type') == 'QCM')
+{
+  console.log('nouveau formulaire');
   $('#question6_button').click(function(){
-    if($('#question6_button').attr('data-status') !== 'over'){
-      $score = checkAnswer(6,2,$answer6,$score);
+    console.log('QCM');
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question6_answer1').is(':checked'))
+    {
+      player_answers[1] = '1';
     }
+    if($('#question6_answer2').is(':checked'))
+    {
+      player_answers[2] = '2';
+    }
+    if($('#question6_answer3').is(':checked'))
+    {
+      player_answers[3] = '3';
+    }
+    if($('#question6_answer4').is(':checked'))
+    {
+      player_answers[4] = '4';
+    }
+    // Ensuite on va transformer ce tableau en une chaine de caractère pour pouvoir comparer les réponses du joueur avec les bonnes du quizz
+    player_final_answer = player_answers.join('');
+    console.log('réponse joueur '+player_final_answer);
+    console.log('réponse valide '+answers[6]['question_goodrep']);
+
+    if($('#question4_button').attr('data-status') !== 'over'){
+      if(player_final_answer == answers[6]['question_goodrep'])
+      {
+        $score++;
+
+        // Et on indique au joueur qu'il a choisi la bonne réponse
+        $('.form6 .quizz_form_feedback span').text("C'est ça !");
+  
+        // Ensuite on affiche une animation indiquant qu'il a choisi la bonne réponse
+        setTimeout(function(){ $('.form6 .answer_feedback_true').show(0).css({"opacity":"1"}); },500);
+        
+      }
+      else 
+      {
+        $('.form6 .quizz_form_feedback span').text("Et non !").css({'color':'red'})
+  
+        setTimeout(function(){ $('.form6 .answer_feedback_wrong').show(0).css({"opacity":"1",'transition':'0.3s ease-out'}); },500);
+      }
+
+      // On cache les réponses
+      $('.form6 .quizz_form_answer').css({"transition":"0.3s ease","opacity":"0"})
+      setTimeout(function(){ $('.form6 .quizz_form_answer').hide(0); },500);
+
+      // On affiche le résultat
+      setTimeout(function(){ $('.form6 .quizz_form_feedback, .form6 .quizz_form_feedback span,.form6 .quizz_form_feedback feedback').show(0).css({'opacity':'1','transition':'0.3s ease-out'})},500)
+
+      // On change le texte du bouton et on indique qu'au prochain clique on passe a la question suivante
+      setTimeout(function(){ $('.form6 #question6_button').text('Prochaine question').attr( 'data-status' , 'over' )},1)
+
+    }
+    });
+} else if ($('.form'+6).attr('data-type') == 'QCU')
+{
+  $('.form'+6).click(function(){
+    answer = $('.question6:checked').val()
+    console.log('réponse selectionés');
   });
 
   $('#question6_button').click(function(){
+    console.log('bouton cliqué');
+    console.log(answers[6]['question_goodrep']);
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question6_button').attr('data-status') !== 'over'){
+      $score = checkAnswer(6,answers[6]['question_goodrep'],answer,$score);
+    }
+    
+  });
+}
+
+///////////////////////////////////////////////
+// FONCTION POUR PASSER A LA PROCHAINE QUESTION
+///////////////////////////////////////////////
+
+  $('#question6_button').click(function(){
+    // On s'assure que la réponse à bien été vérifier et qu'on considère le status de cette question  comme terminé pour passer à la suite
     if($('#question6_button').attr('data-status') == 'over'){
       nextQuestion(6);
+      player_answers = Array();
+      console.log('le score est de '+$score);
     }
   });
 
+          //////////////////////////////////////////////////////////////////////////////////////////////
+// SCRIPT CONCERNAN LA QUESTION 1 DU FORMULAIRE 
 //////////////////////////////////////////////////////////////////////////////////////////////
-// SCRIPT CONCERNAN LA QUESTION 7 DU FORMULAIRE 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   7   
+//7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
   /////////////////////////
   // ON RECUPERE LA VALEUR DE L'INPUT
   /////////////////////////
-
-  $('.form7').click(function(){
-    $answer7 = $('.question7:checked').val()
-  })
-
+// Pour vérifier les réponses multiples de manière dynamique  on va créer un tableau qui contient les réponses cochés par le joueur
+var player_answers = Array();
+if($('.form7').attr('data-type') == 'QCM')
+{
+  console.log('nouveau formulaire');
   $('#question7_button').click(function(){
-    if($('#question7_button').attr('data-status') !== 'over'){
-      $score = checkAnswer(7,2,$answer7,$score);
+    console.log('QCM');
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question7_answer1').is(':checked'))
+    {
+      player_answers[1] = '1';
     }
+    if($('#question7_answer2').is(':checked'))
+    {
+      player_answers[2] = '2';
+    }
+    if($('#question7_answer3').is(':checked'))
+    {
+      player_answers[3] = '3';
+    }
+    if($('#question7_answer4').is(':checked'))
+    {
+      player_answers[4] = '4';
+    }
+    // Ensuite on va transformer ce tableau en une chaine de caractère pour pouvoir comparer les réponses du joueur avec les bonnes du quizz
+    player_final_answer = player_answers.join('');
+    console.log('réponse joueur '+player_final_answer);
+    console.log('réponse valide '+answers[7]['question_goodrep']);
+
+    if($('#question4_button').attr('data-status') !== 'over'){
+      if(player_final_answer == answers[7]['question_goodrep'])
+      {
+        $score++;
+
+        // Et on indique au joueur qu'il a choisi la bonne réponse
+        $('.form7 .quizz_form_feedback span').text("C'est ça !");
+  
+        // Ensuite on affiche une animation indiquant qu'il a choisi la bonne réponse
+        setTimeout(function(){ $('.form7 .answer_feedback_true').show(0).css({"opacity":"1"}); },500);
+        
+      }
+      else 
+      {
+        $('.form7 .quizz_form_feedback span').text("Et non !").css({'color':'red'})
+  
+        setTimeout(function(){ $('.form7 .answer_feedback_wrong').show(0).css({"opacity":"1",'transition':'0.3s ease-out'}); },500);
+      }
+
+      // On cache les réponses
+      $('.form7 .quizz_form_answer').css({"transition":"0.3s ease","opacity":"0"})
+      setTimeout(function(){ $('.form7 .quizz_form_answer').hide(0); },500);
+
+      // On affiche le résultat
+      setTimeout(function(){ $('.form7 .quizz_form_feedback, .form7 .quizz_form_feedback span,.form7 .quizz_form_feedback feedback').show(0).css({'opacity':'1','transition':'0.3s ease-out'})},500)
+
+      // On change le texte du bouton et on indique qu'au prochain clique on passe a la question suivante
+      setTimeout(function(){ $('.form7 #question7_button').text('Prochaine question').attr( 'data-status' , 'over' )},1)
+
+    }
+    });
+} else if ($('.form'+7).attr('data-type') == 'QCU')
+{
+  $('.form'+7).click(function(){
+    answer = $('.question7:checked').val()
+    console.log('réponse selectionés');
   });
 
   $('#question7_button').click(function(){
+    console.log('bouton cliqué');
+    console.log(answers[7]['question_goodrep']);
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question7_button').attr('data-status') !== 'over'){
+      $score = checkAnswer(7,answers[7]['question_goodrep'],answer,$score);
+    }
+    
+  });
+}
+
+///////////////////////////////////////////////
+// FONCTION POUR PASSER A LA PROCHAINE QUESTION
+///////////////////////////////////////////////
+
+  $('#question7_button').click(function(){
+    // On s'assure que la réponse à bien été vérifier et qu'on considère le status de cette question  comme terminé pour passer à la suite
     if($('#question7_button').attr('data-status') == 'over'){
       nextQuestion(7);
+      player_answers = Array();
+      console.log('le score est de '+$score);
     }
   });
 
+          //////////////////////////////////////////////////////////////////////////////////////////////
+// SCRIPT CONCERNAN LA QUESTION 1 DU FORMULAIRE 
 //////////////////////////////////////////////////////////////////////////////////////////////
-// SCRIPT CONCERNAN LA QUESTION 8 DU FORMULAIRE 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   8   
+//8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
   /////////////////////////
   // ON RECUPERE LA VALEUR DE L'INPUT
   /////////////////////////
-
-  $('.form8').click(function(){
-    $answer8 = $('.question8:checked').val()
-  })
-
+// Pour vérifier les réponses multiples de manière dynamique  on va créer un tableau qui contient les réponses cochés par le joueur
+var player_answers = Array();
+if($('.form8').attr('data-type') == 'QCM')
+{
+  console.log('nouveau formulaire');
   $('#question8_button').click(function(){
-    if($('#question8_button').attr('data-status') !== 'over'){
-      $score = checkAnswer(8,3,$answer8,$score);
+    console.log('QCM');
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question8_answer1').is(':checked'))
+    {
+      player_answers[1] = '1';
     }
+    if($('#question8_answer2').is(':checked'))
+    {
+      player_answers[2] = '2';
+    }
+    if($('#question8_answer3').is(':checked'))
+    {
+      player_answers[3] = '3';
+    }
+    if($('#question8_answer4').is(':checked'))
+    {
+      player_answers[4] = '4';
+    }
+    // Ensuite on va transformer ce tableau en une chaine de caractère pour pouvoir comparer les réponses du joueur avec les bonnes du quizz
+    player_final_answer = player_answers.join('');
+    console.log('réponse joueur '+player_final_answer);
+    console.log('réponse valide '+answers[8]['question_goodrep']);
+
+    if($('#question4_button').attr('data-status') !== 'over'){
+      if(player_final_answer == answers[8]['question_goodrep'])
+      {
+        $score++;
+
+        // Et on indique au joueur qu'il a choisi la bonne réponse
+        $('.form8 .quizz_form_feedback span').text("C'est ça !");
+  
+        // Ensuite on affiche une animation indiquant qu'il a choisi la bonne réponse
+        setTimeout(function(){ $('.form8 .answer_feedback_true').show(0).css({"opacity":"1"}); },500);
+        
+      }
+      else 
+      {
+        $('.form8 .quizz_form_feedback span').text("Et non !").css({'color':'red'})
+  
+        setTimeout(function(){ $('.form8 .answer_feedback_wrong').show(0).css({"opacity":"1",'transition':'0.3s ease-out'}); },500);
+      }
+
+      // On cache les réponses
+      $('.form8 .quizz_form_answer').css({"transition":"0.3s ease","opacity":"0"})
+      setTimeout(function(){ $('.form8 .quizz_form_answer').hide(0); },500);
+
+      // On affiche le résultat
+      setTimeout(function(){ $('.form8 .quizz_form_feedback, .form8 .quizz_form_feedback span,.form8 .quizz_form_feedback feedback').show(0).css({'opacity':'1','transition':'0.3s ease-out'})},500)
+
+      // On change le texte du bouton et on indique qu'au prochain clique on passe a la question suivante
+      setTimeout(function(){ $('.form8 #question8_button').text('Prochaine question').attr( 'data-status' , 'over' )},1)
+
+    }
+    });
+} else if ($('.form'+8).attr('data-type') == 'QCU')
+{
+  $('.form'+8).click(function(){
+    answer = $('.question8:checked').val()
+    console.log('réponse selectionés');
   });
 
   $('#question8_button').click(function(){
+    console.log('bouton cliqué');
+    console.log(answers[8]['question_goodrep']);
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question8_button').attr('data-status') !== 'over'){
+      $score = checkAnswer(8,answers[8]['question_goodrep'],answer,$score);
+    }
+    
+  });
+}
+
+///////////////////////////////////////////////
+// FONCTION POUR PASSER A LA PROCHAINE QUESTION
+///////////////////////////////////////////////
+
+  $('#question8_button').click(function(){
+    // On s'assure que la réponse à bien été vérifier et qu'on considère le status de cette question  comme terminé pour passer à la suite
     if($('#question8_button').attr('data-status') == 'over'){
       nextQuestion(8);
+      player_answers = Array();
+      console.log('le score est de '+$score);
     }
   });
 
+          //////////////////////////////////////////////////////////////////////////////////////////////
+// SCRIPT CONCERNAN LA QUESTION 1 DU FORMULAIRE 
 //////////////////////////////////////////////////////////////////////////////////////////////
-// SCRIPT CONCERNAN LA QUESTION 9 DU FORMULAIRE 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9   9
+// 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 
   /////////////////////////
   // ON RECUPERE LA VALEUR DE L'INPUT
   /////////////////////////
+// Pour vérifier les réponses multiples de manière dynamique  on va créer un tableau qui contient les réponses cochés par le joueur
+var player_answers = Array();
+if($('.form9').attr('data-type') == 'QCM')
+{
+  console.log('nouveau formulaire');
+  $('#question9_button').click(function(){
+    console.log('QCM');
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question9_answer1').is(':checked'))
+    {
+      player_answers[1] = '1';
+    }
+    if($('#question9_answer2').is(':checked'))
+    {
+      player_answers[2] = '2';
+    }
+    if($('#question9_answer3').is(':checked'))
+    {
+      player_answers[3] = '3';
+    }
+    if($('#question9_answer4').is(':checked'))
+    {
+      player_answers[4] = '4';
+    }
+    // Ensuite on va transformer ce tableau en une chaine de caractère pour pouvoir comparer les réponses du joueur avec les bonnes du quizz
+    player_final_answer = player_answers.join('');
+    console.log('réponse joueur '+player_final_answer);
+    console.log('réponse valide '+answers[9]['question_goodrep']);
 
-  $('.form9').click(function(){
-    $answer9 = $('.question9:checked').val()
-  })
+    if($('#question4_button').attr('data-status') !== 'over'){
+      if(player_final_answer == answers[9]['question_goodrep'])
+      {
+        $score++;
 
-  /////////////////////////
-  // ENSUITE ON LA COMPARE 
-  // ET ON EFFECTUE NOS ACTIONS EN FONCTION DE LA VALEUR
-  /////////////////////////
-
-  $('.form9 button').click(function(){
-
-    if ($('#question9_answer1').is(':checked') && $('#question9_answer4').is(':checked')){
-      
-    // Alors on augmente le score de 1
-    $score = $score+1
-
-    // Et on indique au joueur qu'il a choisi la bonne réponse
-    $('.form9 .quizz_form_feedback span').text("C'est ça !");
-
-    // Ensuite on affiche une animation indiquant qu'il a choisi la bonne réponse
-    setTimeout(function(){ $('.form9 .answer_feedback_true').show(0).css({"opacity":"1"}); },500);
-
-
-    } else{
-      
-      $('.form9 .quizz_form_feedback span').text("Et non !").css({'color':'red'})
-
-      setTimeout(function(){ $('.form9 .answer_feedback_wrong').show(0).css({"opacity":"1"}); },500);
-
-      console.log('réponse non définie')
-      if($('#question9_answer1').is(':checked')){
-        console.log('ok');
+        // Et on indique au joueur qu'il a choisi la bonne réponse
+        $('.form9 .quizz_form_feedback span').text("C'est ça !");
+  
+        // Ensuite on affiche une animation indiquant qu'il a choisi la bonne réponse
+        setTimeout(function(){ $('.form9 .answer_feedback_true').show(0).css({"opacity":"1"}); },500);
+        
       }
+      else 
+      {
+        $('.form9 .quizz_form_feedback span').text("Et non !").css({'color':'red'})
+  
+        setTimeout(function(){ $('.form9 .answer_feedback_wrong').show(0).css({"opacity":"1",'transition':'0.3s ease-out'}); },500);
+      }
+
+      // On cache les réponses
+      $('.form9 .quizz_form_answer').css({"transition":"0.3s ease","opacity":"0"})
+      setTimeout(function(){ $('.form9 .quizz_form_answer').hide(0); },500);
+
+      // On affiche le résultat
+      setTimeout(function(){ $('.form9 .quizz_form_feedback, .form9 .quizz_form_feedback span,.form9 .quizz_form_feedback feedback').show(0).css({'opacity':'1','transition':'0.3s ease-out'})},500)
+
+      // On change le texte du bouton et on indique qu'au prochain clique on passe a la question suivante
+      setTimeout(function(){ $('.form9 #question9_button').text('Prochaine question').attr( 'data-status' , 'over' )},1)
+
     }
+    });
+} else if ($('.form'+9).attr('data-type') == 'QCU')
+{
+  $('.form'+9).click(function(){
+    answer = $('.question9:checked').val()
+    console.log('réponse selectionés');
+  });
 
-    // On cache les réponses
-    $('.form9 .quizz_form_answer').css({"transition":"0.3s ease","opacity":"0"})
-    setTimeout(function(){ $('.form9 .quizz_form_answer').hide(0); },500);
+  $('#question9_button').click(function(){
+    console.log('bouton cliqué');
+    console.log(answers[9]['question_goodrep']);
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question9_button').attr('data-status') !== 'over'){
+      $score = checkAnswer(9,answers[9]['question_goodrep'],answer,$score);
+    }
     
-    // On affiche le résultat
-    setTimeout(function(){ $('.form9 .quizz_form_feedback, .form9 .quizz_form_feedback span,.form9 .quizz_form_feedback feedback').show(0).css({'opacity':'1'})},500)
-    
-    // On change le texte du bouton et on indique qu'au prochain clique on passe a la question suivante
-    setTimeout(function(){ $('.form9 #question9_button').text('Prochaine question').val('finished')},1) 
-
-          
-  })
+  });
+}
 
 ///////////////////////////////////////////////
-// FONCTION POUR PASSER A LA DIXIEME QUESTION
+// FONCTION POUR PASSER A LA PROCHAINE QUESTION
 ///////////////////////////////////////////////
 
-$('#question9_button').click(function(){
-  if($('#question9_button').val() == 'finished')
-  {
-
-    // On fait disparaitre tous les éléments de la question 2
-    setTimeout(function(){ $('.form9 p').css({'opacity':'0','transition':'0.3s ease'}); },100);
-    setTimeout(function(){ $('.form9 lord-icon').css({'opacity':'0','transition':'0.3s ease'}); },200);
-    setTimeout(function(){ $('.form9 span').css({'opacity':'0','transition':'0.3s ease'}); },300);
-    setTimeout(function(){ $('.form9 feedback').css({'opacity':'0','transition':'0.3s ease'}); },300);
-    setTimeout(function(){ $('.form9 button').css({'opacity':'0','transition':'0.3s ease'}); },400);
-    
-    //Et on fait apparaitre la question 6
-    setTimeout(function(){ $('.form9').hide(0); },1000);
-    setTimeout(function(){ $('.form10').show(0).css({"display":"flex"}).css({"display":"flex"}); },1000);
-    setTimeout(function(){ $('.form10').css({'opacity':'1','transition':'0.3s ease'});},1000)
-
-  }
-})
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-// SCRIPT CONCERNAN LA QUESTION 2 DU FORMULAIRE 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//10   10   10    10    10   10   10    10    10   10   10    10    10   10   10    10    10   10   10    10    
-  /////////////////////////
-  // ON RECUPERE LA VALEUR DE L'INPUT
-  /////////////////////////
-
-  $('.form10').click(function(){
-    $answer10 = $('.question10:checked').val()
-  })
-
-  $('#question10_button').click(function(){
-    if($('#question10_button').attr('data-status') !== 'over'){
-      $score = checkAnswer(10,2,$answer10,$score);
+  $('#question9_button').click(function(){
+    // On s'assure que la réponse à bien été vérifier et qu'on considère le status de cette question  comme terminé pour passer à la suite
+    if($('#question9_button').attr('data-status') == 'over'){
+      nextQuestion(9);
+      player_answers = Array();
+      console.log('le score est de '+$score);
     }
   });
 
+          //////////////////////////////////////////////////////////////////////////////////////////////
+// SCRIPT CONCERNAN LA QUESTION 1 DU FORMULAIRE 
+//////////////////////////////////////////////////////////////////////////////////////////////
+// 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 
+  /////////////////////////
+  // ON RECUPERE LA VALEUR DE L'INPUT
+  /////////////////////////
+// Pour vérifier les réponses multiples de manière dynamique  on va créer un tableau qui contient les réponses cochés par le joueur
+var player_answers = Array();
+if($('.form10').attr('data-type') == 'QCM')
+{
+  console.log('nouveau formulaire');
   $('#question10_button').click(function(){
+    console.log('QCM');
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question10_answer1').is(':checked'))
+    {
+      player_answers[1] = '1';
+    }
+    if($('#question10_answer2').is(':checked'))
+    {
+      player_answers[2] = '2';
+    }
+    if($('#question10_answer3').is(':checked'))
+    {
+      player_answers[3] = '3';
+    }
+    if($('#question10_answer4').is(':checked'))
+    {
+      player_answers[4] = '4';
+    }
+    // Ensuite on va transformer ce tableau en une chaine de caractère pour pouvoir comparer les réponses du joueur avec les bonnes du quizz
+    player_final_answer = player_answers.join('');
+    console.log('réponse joueur '+player_final_answer);
+    console.log('réponse valide '+answers[10]['question_goodrep']);
+
+    if($('#question4_button').attr('data-status') !== 'over'){
+      if(player_final_answer == answers[10]['question_goodrep'])
+      {
+        $score++;
+
+        // Et on indique au joueur qu'il a choisi la bonne réponse
+        $('.form10 .quizz_form_feedback span').text("C'est ça !");
+  
+        // Ensuite on affiche une animation indiquant qu'il a choisi la bonne réponse
+        setTimeout(function(){ $('.form10 .answer_feedback_true').show(0).css({"opacity":"1"}); },500);
+        
+      }
+      else 
+      {
+        $('.form10 .quizz_form_feedback span').text("Et non !").css({'color':'red'})
+  
+        setTimeout(function(){ $('.form10 .answer_feedback_wrong').show(0).css({"opacity":"1",'transition':'0.3s ease-out'}); },500);
+      }
+
+      // On cache les réponses
+      $('.form10 .quizz_form_answer').css({"transition":"0.3s ease","opacity":"0"})
+      setTimeout(function(){ $('.form10 .quizz_form_answer').hide(0); },500);
+
+      // On affiche le résultat
+      setTimeout(function(){ $('.form10 .quizz_form_feedback, .form10 .quizz_form_feedback span,.form10 .quizz_form_feedback feedback').show(0).css({'opacity':'1','transition':'0.3s ease-out'})},500)
+
+      // On change le texte du bouton et on indique qu'au prochain clique on passe a la question suivante
+      setTimeout(function(){ $('.form10 #question10_button').text('Prochaine question').attr( 'data-status' , 'over' )},1)
+
+    }
+    });
+} else if ($('.form'+10).attr('data-type') == 'QCU')
+{
+  $('.form'+10).click(function(){
+    answer = $('.question10:checked').val()
+    console.log('réponse selectionés');
+  });
+
+  $('#question10_button').click(function(){
+    console.log('bouton cliqué');
+    console.log(answers[10]['question_goodrep']);
+    // On s'assure qu'il s'agit bien du premier clique sur le bouton qui permet de vérifier la réponse.
+    if($('#question10_button').attr('data-status') !== 'over'){
+      $score = checkAnswer(10,answers[10]['question_goodrep'],answer,$score);
+    }
+    
+  });
+}
+
+///////////////////////////////////////////////
+// FONCTION POUR PASSER A LA PROCHAINE QUESTION
+///////////////////////////////////////////////
+
+  $('#question10_button').click(function(){
+    // On s'assure que la réponse à bien été vérifier et qu'on considère le status de cette question  comme terminé pour passer à la suite
     if($('#question10_button').attr('data-status') == 'over'){
       nextQuestion(10);
+      player_answers = Array();
+      console.log('le score est de '+$score);
+      $('#input_score').val($score);
+
     }
   });
+
+
+
+
 
 
   $('.next_button').click(function(){

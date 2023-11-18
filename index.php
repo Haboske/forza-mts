@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+<?php require 'api/Config.php';
+    require 'api/User.php';
+echo '<link rel="stylesheet" href="content/CSS/backoffice_v2.css">';
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -18,6 +23,8 @@
             <a id="news" href="#nouveautes" class="nav_link">nouveautés</a>
             <a href="#event" class="nav_link">évenements</a>
             <a href="#formulaire" class="nav_link">Nous contacter</a>
+            <a href="/inscription.php" class="nav_link">S'inscrire</a>
+            <a href="/connexion.php" class="nav_link">Connexion</a>
         </div>
 
     </header>
@@ -198,59 +205,22 @@
         
         </section>
         <section class="section_spacing section_form" id="formulaire">
-            <form class="formulaire">
-                <div class="formulaire_intro">
-                    <h2>Formulaire de contact</h2>
-                    <hr class="separation">
-                    <label>Je vous contact pour</label>
-                    <div class="formulaire_reasons_list">
-                        <div class="formulaire_reasons_items">
-                            <input type="radio" id="join" name="reasons" value="join">
-                            <label for="join">Je souhaite rejoindre la communauté</label>
-                        </div>
-                        <div class="formulaire_reasons_items">
-                            <input type="radio" id="participate" name="reasons" value="participate">
-                            <label for="participate">Je souhaite participer à un event</label>
-                        </div>
-                        <div class="formulaire_reasons_items">
-                            <input type="radio" id="problem" name="reasons" value="problem">
-                            <label for="problem">Je souhaite signaler un problème</label>
-                        </div>
-                    </div>
-                    <hr class="separation">
-                    <div class="formulaire_informations_list">
-                        <div class="formulaire_informations_items">
-                            <label for="name">Nom</label>
-                            <input type="text" id="name" >
-                        </div>
-                        <div class="formulaire_informations_items">
-                            <label for="surname">Prénom</label>
-                            <input type="text" id="surname">
-                        </div>
-                        <div class="formulaire_informations_items">
-                            <label for="contact_email">Email</label>
-                            <input type="text" id="contact_email">
-                        </div>
-                        <div class="formulaire_informations_items">
-                            <label for="phone">Numéro</label>
-                            <input type="number" id="phone">
-                        </div>
-                        <hr class="separation">
-                        <div class="formulaire_informations_items">
-                            <label for="message">Message</label>
-                            <input type="text" id="message">
-                        </div>
-                        <div class="formulaire_informations_envoyer">
-                            <input type="submit" value="Envoyer">
-                        </div>
-                    </div>
-                </div>
+            <?php 
+                
+                if (isset($_SESSION['user_email']))
+                {
+                    echo '
+                    <div class="user_container">
+                        <h1 class="user_quizz_item_heading">Bonjour <span class="user_quizz_pseudo">'.$_SESSION['user_pseudo'].'</span> !<br>Ça te dit de <span class="user_quizz_heading_span">Participer à un quizz</span> ?</h1>
+                        <ol role="list" class="user_quizz_list w-list-unstyled">
+                     "';
 
-            </form>
-            <div class="formulaire_content">
-                <video autoplay loop muted width="100%" alt="video montrant le départ d'une course organisé par la communauté sur forza motorsport">
-                    <source src="content/MP4/contact.mp4" type="video/mp4"/>
-                </video>            
+                     getUserQuizzList($database);
+
+                     echo '</ol>';
+                }
+
+            ?>
             </div>
         </section>
     </main>
@@ -282,3 +252,8 @@
 <script src="script/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.lordicon.com/lordicon-1.2.0.js"></script>
 <script src="script/script.js"></script>
+<?php
+
+require 'api/Admin.php';
+
+?>

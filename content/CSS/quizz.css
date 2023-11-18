@@ -1,26 +1,29 @@
 @font-face {
-    font-family: 'Gabarito';
-    font-style: normal;
-    font-weight: 400;
-    src: url("assets/Gabarito.ttf") format('ttf');
-    src: url("assets/Gabarito.otf") format('otf');
-    src: url("assets/Gabarito.woff") format('woff');
-    src: url("assets/Gabarito.woff2") format('woff2');
+  font-family: 'Gabarito';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/Gabarito.ttf") format('ttf');
+  src: url("../fonts/Gabarito.otf") format('otf');
+  src: url("../fonts/Gabarito.woff") format('woff');
+  src: url("../fonts/Gabarito.woff2") format('woff2');
+  src: url("../fonts/Gabarito.eot") format('eot');
+
 }
 
 @font-face {
-    font-family: 'Demonized';
-    font-style: normal;
-    src: url("assets/Demonized.ttf") format('ttf');
-    src: url("assets/Demonized.otf") format('otf');  
-    src: url("assets/Demonized.woff") format('woff');  
-    src: url("assets/Demonized.woff2") format('woff2');     
+  font-family: 'Demonized';
+  font-style: normal;
+  src: url("../fonts/Demonized.ttf") format('ttf');
+  src: url("../fonts/Demonized.otf") format('otf');  
+  src: url("../fonts/Demonized.woff") format('woff');  
+  src: url("../fonts/Demonized.woff2") format('woff2');   
+  src: url("../fonts/Demonized.eot") format('eot');   
 }
 
 @font-face {
-    font-family: 'Lobster';
-    font-style: normal;
-    src: url("assets/Lobster-Regular.ttf") ;
+  font-family: 'Lobster'; 
+  font-style: normal;
+  src: url("../fonts/Lobster-Regular.ttf") ;
 }
 
 *{
