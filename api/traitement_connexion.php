@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if($_SESSION['user_isadmin'] == 1)
             {
-                header('Location: https://forza-mts.alwaysdata.net/backoffice.php?quizz_list=true');
+                header('Location: https://localhost:8888/backoffice.php?quizz_list=true');
             }
             else
             {

@@ -17,13 +17,20 @@ function getQuizzList($database){
     echo '  <div class="w-layout-blockcontainer admin-container-heading w-container">
                 <h1 class="heading-2">QUIZZ</h1>
                 <div class="button-wrapper">
-                    <a href="http://'.$_SERVER['SERVER_NAME'].'/backoffice.php?nouveau_quizz=true" class="new-button">NOUVEAU QUIZZ</a>
+                    <a href="http://'.$_SERVER['SERVER_NAME'].':8888/backoffice.php?nouveau_quizz=true" class="new-button">NOUVEAU QUIZZ</a>
                 </div>
-            </div>
-            <div class="list-container">';    
+            </div>'; 
 
                 setList($headers, $headers_class);
+                $i = 0;
+                $pair = false;
                 foreach($quizzList as $quizz){
+
+                    if($i%2==0 | $i == 0){
+                        $pair = true;
+                    }else{
+                        $pair = false;
+                    }
 
                     $cat = $database->select('quizz_categorie',[
                         'categorie_name'
@@ -33,10 +40,13 @@ function getQuizzList($database){
 
                     $quizz['categorie_foreign_id'] = $cat;
                 
-                    setListItem('quizz',$quizz, $headers_class, true, true);
+                    setListItem('quizz',$quizz, $headers_class, true, true, $pair);
                     
+                    $i++;
+
                 }
                 endList();
+
 
 
 };
@@ -252,15 +262,26 @@ function getCategoryList($database){
     ]);
 
     echo '  <div class="button-wrapper">
-                <a href="http://'.$_SERVER['SERVER_NAME'].'/backoffice.php?nouvelle_categorie=true" class="new-button">NOUVELLE CATEGORIE</a>
+                <a href="http://'.$_SERVER['SERVER_NAME'].':8888/backoffice.php?nouvelle_categorie=true" class="new-button">NOUVELLE CATEGORIE</a>
             </div>';
 
+
+    $pair = false;
+    $i = 0;
     setList($headers, $headers_class);
     foreach($categorieList as $cat){
-        setListItem('categorie',$cat, $headers_class, true, true);
+
+        if($i%2==0 | $i == 0){
+            $pair = true;
+        }else{
+            $pair = false;
+        }
+
+        setListItem('categorie',$cat, $headers_class, true, true, $pair);
+
+        $i++;
     }
     endList();
-
 };
 
 function getCategoryModifForm($database, $id){
@@ -380,11 +401,19 @@ function getQuestionList($database){
     ]);
 
     echo '  <div class="button-wrapper">
-                <a href="http://'.$_SERVER['SERVER_NAME'].'/backoffice.php?nouvelle_question=true" class="new-button">NOUVELLE QUESTION</a>
+                <a href="http://'.$_SERVER['SERVER_NAME'].':8888/backoffice.php?nouvelle_question=true" class="new-button">NOUVELLE QUESTION</a>
             </div>';
 
     setList($headers, $headers_class);
+    $i = 0;
+    $pair = false;
     foreach ($questionsList as $question){
+
+        if($i%2==0 | $i == 0){
+            $pair = true;
+        }else{
+            $pair = false;
+        }
 
         $cat = $database->select('quizz_categorie',[
             'categorie_name'
@@ -393,7 +422,6 @@ function getQuestionList($database){
         ])[0]['categorie_name'];
 
         $question['categorie_foreign_id'] = $cat;
-
         $good_answer = intval($question['question_good_ans']);
         if($good_answer >= 1 && $good_answer <= 4){
             $question['question_good_ans'] = 'QCU';
@@ -405,8 +433,9 @@ function getQuestionList($database){
             $question['question_good_ans'] = 'error';
         };
   
-        setListItem('question',$question, $headers_class, true, true);
+        setListItem('question',$question, $headers_class, true, true, $pair);
 
+        $i++;
 
     };
     endList();
@@ -735,9 +764,21 @@ function getUserList($database){
         'user_isadmin'
     ]);
 
+    $i = 0;
+    $pair = false;
     setList($headers, $headers_class);
     foreach($userList as $user){
-        setListItem('user',$user, $headers_class, true, true);
+
+        $i;
+        if($i%2==0 | $i == 0){
+            $pair = true;
+        }else{
+            $pair = false;
+        }
+
+        setListItem('user',$user, $headers_class, true, true, $pair);
+
+        $i++;
     }
     endList();
 
@@ -860,8 +901,16 @@ function getScoreList($database){
         'score'
     ]);
 
+    $i = 0;
+    $pair = false;
     setList($headers, $headers_class);
     foreach($scoreList as $score){
+        
+        if($i%2==0 | $i == 0){
+            $pair = true;
+        }else{
+            $pair = false;
+        }
 
         $user = $database -> select('users',[
             'user_pseudo'
@@ -879,7 +928,9 @@ function getScoreList($database){
 
         $score['quizz_foreign_id'] = $quizz[0]['quizz_name'];
 
-        setListItem('score',$score, $headers_class, false, true);
+        setListItem('score',$score, $headers_class, false, true, $pair);
+
+        $i++;
 
     }
     endList();

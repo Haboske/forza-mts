@@ -26,8 +26,9 @@ function setList($headers, $headers_class){
 
     $i = 0;
 
-    echo '<ol role="list" class="list_item w-list-unstyled">
-        <li class="list-item heading">';
+    echo '<div class="list-container">
+            <ol role="list" class="list_item w-list-unstyled">
+                <li class="list-item heading impair">';
 
     foreach($headers as $liHeading){
         echo '<div class="list_item_text '.$headers_class[$i].'">'.$liHeading.'</div>';
@@ -37,12 +38,17 @@ function setList($headers, $headers_class){
 
 }
 
-function setListItem($listType,$items, $items_class, $updateButton, $deleteButton){
+function setListItem($listType,$items, $items_class, $updateButton, $deleteButton, $pair){
 
     $i = 0;
+    $pairCLass = 'impair';
+    if($pair){
+        $pairCLass = '';
+    }
 
-    echo '<li class="list-item">';
+    echo '<li class="list-item '.$pairCLass.'">';
 
+    
     foreach ($items as $item){
         echo '<div class="list_item_text '.$items_class[$i].'">'.$item.'</div>';
         if($i==0){
@@ -53,12 +59,12 @@ function setListItem($listType,$items, $items_class, $updateButton, $deleteButto
 
     if($updateButton)
     {
-        echo '<a href="http://'.$_SERVER['SERVER_NAME'].'/backoffice.php?modif_'.$listType.'='.$id.'" class="list_item_text edit">EDITER</a>';
+        echo '<a href="http://'.$_SERVER['SERVER_NAME'].':8888/backoffice.php?modif_'.$listType.'='.$id.'" class="list_item_text edit">EDITER</a>';
     }
 
     if($deleteButton)
     {
-        echo '<a href="http://'.$_SERVER['SERVER_NAME'].'/backoffice.php?delete_'.$listType.'='.$id.'" class="list_item_text delete">SUPPRIMER</a>';
+        echo '<a href="http://'.$_SERVER['SERVER_NAME'].':8888/backoffice.php?delete_'.$listType.'='.$id.'" class="list_item_text delete">SUPPRIMER</a>';
     }
 
     echo '</li>';
@@ -66,7 +72,8 @@ function setListItem($listType,$items, $items_class, $updateButton, $deleteButto
 }
 
 function endList(){
-    echo '</ol>';
+    echo '</ol>
+    </div>';
 }
 
 

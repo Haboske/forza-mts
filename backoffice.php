@@ -5,8 +5,9 @@ ini_set('display_errors', 'on');
 require 'api/header.php';
 require 'api/Config.php';
 require 'api/Admin.php';
-echo '<link rel="stylesheet" href="content/CSS/backoffice_v2.css">';
 
+echo '<link rel="stylesheet" href="content/CSS/webflow.css">';
+echo '<link rel="stylesheet" href="content/CSS/backoffice_v2.css">';
 $is_admin = true;
 
 ?>
@@ -21,7 +22,7 @@ $is_admin = true;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 </head>
-<body class='body'>
+<body class='Body'>
     <section class="main-section">
         <div class="w-layout-blockcontainer admin-wrapper w-container">
             <div class="admin-container">
@@ -41,7 +42,7 @@ $is_admin = true;
                     }
                     else if(isset($_GET['quizz_questions']))
                     {
-                        echo "<h1>AFFICHER LA LISTE DE QUESTIONS</h1>";
+                        echo "<h1>QUIZZ / QUESTIONS / LISTE</h1>";
                         getQuestionList($database);
                     }
                     else if(isset($_GET['quizz_scores']))
