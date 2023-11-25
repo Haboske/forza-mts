@@ -1,5 +1,5 @@
 
-
+// On récupère les bonnes réponses que nous avons insérer sous format json dans une balise script et on delete aussi tôt la balise pour ne pas que le joueur vienne les chercher dans le DOM
 var answers = goodanswers;
 console.log(answers);
 $('#jsonDatas').remove();

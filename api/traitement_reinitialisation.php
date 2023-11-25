@@ -47,7 +47,7 @@ function send_mail($to, $subject, $body){
 // Informations de connexion à la base de données
 $serveur = "mysql-forza-mts.alwaysdata.net"; // Adresse du serveur MySQL
 $utilisateur = "forza-mts"; // Nom d'utilisateur MySQL
-$mot_de_passe = "3i7od8pSY3@NmAE4"; // Mot de passe MySQL
+$mot_de_passe = "tJG5jzHL4#MJz!MH"; // Mot de passe MySQL
 $base_de_donnees = "forza-mts_final"; // Nom de la base de données
 
 // Connexion à la base de données
@@ -59,7 +59,7 @@ if (!$connexion) {
 }
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["reset"])) {
     $email = $_POST["email"];
     
     $query = "SELECT * FROM users WHERE user_email = '$email'";
@@ -116,17 +116,29 @@ if (isset($_GET['token'])) {
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Réinitialisation de mot de passe</title>
+            <link rel="stylesheet" href="../content/CSS/backoffice_v2.css">
+            <link rel="stylesheet" href="../content/CSS/webflow.css">
         </head>
-        <body>
-            <form action="traitement_reinitialisation.php" method="POST">
-                <input type="hidden" name="email" value="'.$email.'">
-                <input type="hidden" name="token" value="' . $token . '">
-                <label for="new_password">Nouveau mot de passe :</label>
-                <input type="password" id="new_password" name="new_password" required>
-                <label for="confirm_password">Confirmer le nouveau mot de passe :</label>
-                <input type="password" id="confirm_password" name="confirm_password" required>
-                <input type="submit">Réinitialiser le mot de passe</input>
-            </form>
+        <body class="body-2">
+            <section class="main-section connexion">
+                <div class="connexion-wrapper background-color-dark">
+                    <div class="connexion-heading-wrapper">
+                        <h1 class="connexion-heading">Réinitialiser votre mot de passe🆘</h1>
+                        <div class="connexion-desc">Veuillez renseignez votre nouveau mot de passe.</div>
+                    </div>
+                    <div class="w-form">
+                        <form action="traitement_reinitialisation.php" method="POST">
+                            <input type="hidden" name="email" value="'.$email.'">
+                            <input type="hidden" name="token" value="' . $token . '">
+                            <input type="hidden" name="reset" value="yes">
+                            <label for="new_password" class="connexion-label">Nouveau mot de passe :</label>
+                            <input type="password" id="new_password" name="new_password" class="connexion-input w-input" required>
+                            <label for="confirm_password" class="connexion-label">Confirmer le nouveau mot de passe :</label>
+                            <input type="password" id="confirm_password" name="confirm_password" class="connexion-input w-input" required>
+                            <input type="submit" class="connexion-input submit w-button">
+                    </div>
+                </div>
+            </section>
         </body>
         </html>';
     } 

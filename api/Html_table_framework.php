@@ -14,14 +14,17 @@ function setTable($headers){
 
 }
 
+# On créer une fonction qui ferme notre table en html
 function endTable(){
     echo "</tbody></table>";
 }
 
+# On créer une fonction qui insère un item dans un td
 function td($text){
     return "<td>".$text."</td>";
 }
 
+# On créer une fonction qui génère le header d'une liste en html avec les classes présentes dans la propriétés header_class
 function setList($headers, $headers_class){
 
     $i = 0;
@@ -30,7 +33,9 @@ function setList($headers, $headers_class){
             <ol role="list" class="list_item w-list-unstyled">
                 <li class="list-item heading impair">';
 
+    # Pour chaque tête de colonne dans notre array
     foreach($headers as $liHeading){
+        # On génère une tête de colonne
         echo '<div class="list_item_text '.$headers_class[$i].'">'.$liHeading.'</div>';
         $i++;
     }
@@ -38,6 +43,7 @@ function setList($headers, $headers_class){
 
 }
 
+# On créer une fonction qui permet d'insérer un item dans notre liste
 function setListItem($listType,$items, $items_class, $updateButton, $deleteButton, $pair){
 
     $i = 0;
@@ -48,8 +54,9 @@ function setListItem($listType,$items, $items_class, $updateButton, $deleteButto
 
     echo '<li class="list-item '.$pairCLass.'">';
 
-    
+    # Pour chaque text présent dans notre item alors
     foreach ($items as $item){
+        # On l'affiche
         echo '<div class="list_item_text '.$items_class[$i].'">'.$item.'</div>';
         if($i==0){
             $id = $item;
@@ -57,20 +64,23 @@ function setListItem($listType,$items, $items_class, $updateButton, $deleteButto
         $i++;
     }
 
+    # Si updatabutton a été appelé alors on l'affiche
     if($updateButton)
     {
-        echo '<a href="http://'.$_SERVER['SERVER_NAME'].':8888/backoffice.php?modif_'.$listType.'='.$id.'" class="list_item_text edit">EDITER</a>';
+        echo '<a href="http://'.$_SERVER['SERVER_NAME'].'/backoffice.php?modif_'.$listType.'='.$id.'" class="list_item_text edit">EDITER</a>';
     }
 
+    # Si deletebutton a été appelé alors on l'affiche
     if($deleteButton)
     {
-        echo '<a href="http://'.$_SERVER['SERVER_NAME'].':8888/backoffice.php?delete_'.$listType.'='.$id.'" class="list_item_text delete">SUPPRIMER</a>';
+        echo '<a href="http://'.$_SERVER['SERVER_NAME'].'/backoffice.php?delete_'.$listType.'='.$id.'" class="list_item_text delete">SUPPRIMER</a>';
     }
 
     echo '</li>';
 
 }
 
+# On créer une fonction qui permet de clôturer une liste en html
 function endList(){
     echo '</ol>
     </div>';

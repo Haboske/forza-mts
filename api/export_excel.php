@@ -2,7 +2,7 @@
 // Informations de connexion à la base de données
 $serveur = "mysql-forza-mts.alwaysdata.net"; // Adresse du serveur MySQL
 $utilisateur = "forza-mts"; // Nom d'utilisateur MySQL
-$mot_de_passe = "3i7od8pSY3@NmAE4"; // Mot de passe MySQL
+$mot_de_passe = "tJG5jzHL4#MJz!MH"; // Mot de passe MySQL
 $base_de_donnees = "forza-mts_final"; // Nom de la base de données
 
 // Création de la connexion

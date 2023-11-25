@@ -1,37 +1,60 @@
 <?php
 require "Html_table_framework.php";
 
+# TOUS LES COMMENTAIRES DE SONT UNIQUEMENT PRESENT DANS LA PARTIE QUIZZ
+# POUR UNE SIMPLE RAISON DE TEMPS ET D'ORGANISATION, LES AUTRES PARTIES SE RESSEMBLENT C'EST GENERALEMENT DU COPIE COLLIE DE LA PARTIE QUIZZ
+# IL Y A PLUSIEURS MANIERES DE GERER UN FORMULAIRE EN BACKEND, SOIT EN POST SOIT EN GET
+# TOUS LE BACKOFFICE A ETE GERE AVEC LE GET?
+# SI VOUS VOULEZ VOIR L'UTILISATION DU POST CE SERA SUR TOUTE LA PARTIE CONNEXION, INSCRIPTION et RESET
+# SOIT : traitement_connexion.php, traitement_inscription.php etc.
+# J'AI EGALEMENT CONFIANCE DE NE PAS AVOIR SECURISE LES INFORMATIONS QUE J'ENVOIE DANS MES REQUETES SQL, IL Y A PLUSIEURS RAISONS A CELA :
+# 1 - MANQUE DE TEMPS MALGRE LE TEMPS SUPPLEMENTAIRE QUE VOUS NOUS AVEZ DONNEE ON S'EST CONCENTRES SUR LE PYTHON
+# 2 - JE ME SUIS REPOSE SUR LE FRAMEWORK MEDOO QUI SECURISE DEJA TOUTES LES REQUETES A NOTRE PLACE
+
 // FONCTIONS QUIZZ
+
+# Fonction permettant de récupérer la liste des quizz
 function getQuizzList($database){
 
+    # On va définir les headers des tables
     $headers = array('Id','Nom','Description','Catégorie');
+    # Et les classes des tables
     $headers_class = array('id','category','label','category');
 
+    # On récupère la table que l'on souhaite affihcer
     $quizzList = $database->select('quizz',[
         'quizz_id',
         'quizz_name',
         'quizz_desc',
         'categorie_foreign_id'
     ]);
+
+    # on l'affiche
     
     echo '  <div class="w-layout-blockcontainer admin-container-heading w-container">
                 <h1 class="heading-2">QUIZZ</h1>
                 <div class="button-wrapper">
-                    <a href="http://'.$_SERVER['SERVER_NAME'].':8888/backoffice.php?nouveau_quizz=true" class="new-button">NOUVEAU QUIZZ</a>
+                    <a href="http://'.$_SERVER['SERVER_NAME'].'/backoffice.php?nouveau_quizz=true" class="new-button">NOUVEAU QUIZZ</a>
                 </div>
             </div>'; 
 
+
+                # On va afficher la table avec une boucle qui va parcourir notre liste
+                # La fonction setList est une fonction créé dans Html_table_framework.php qui permet de d'imprimer la nomenclature des listes html afin d'éviter les répétitions
                 setList($headers, $headers_class);
                 $i = 0;
+                # Le booléen pair est seulement là pour déterminer si l'index qu'on parcour est pair ou non et attribuer une classe css en fonction
                 $pair = false;
                 foreach($quizzList as $quizz){
 
+                    # est pair ou non
                     if($i%2==0 | $i == 0){
                         $pair = true;
                     }else{
                         $pair = false;
                     }
 
+                    # on récupère le nom de la catégorie associé au quizz
                     $cat = $database->select('quizz_categorie',[
                         'categorie_name'
                     ],[
@@ -40,17 +63,21 @@ function getQuizzList($database){
 
                     $quizz['categorie_foreign_id'] = $cat;
                 
+                    # On imprime notre ligne grâce à cette fonction présente dans Html_table_framework.php 
                     setListItem('quizz',$quizz, $headers_class, true, true, $pair);
                     
                     $i++;
 
                 }
+
+                # fonction permettant de cloturer la liste en html, fonction présente dans Html_table_framework.php
                 endList();
 
 
 
 };
 
+# Fonction permettant de générer le formulaire de modification d'un quizz
 function getQuizzModifForm($database, $id){
     // On vient récupére les infos du quizz en question
     $quizz = $database->select('quizz',[
@@ -76,6 +103,7 @@ function getQuizzModifForm($database, $id){
     ]);
 
     // Et enfin générer le form
+    // On pré rempli le formulaire avec les valeurs récupéré via notre requete sql
     echo '  <div class="admin_modif_form_wrapper">
                 <h1 class="modif_form_heading">Modification du quizz n°'.$quizz[0]['quizz_id'].'</h1>
                 <h3 class="modif_form_subheading">'.$quizz[0]['quizz_name'].'</h3>
@@ -120,8 +148,10 @@ function getQuizzModifForm($database, $id){
 
 };
 
+# Fonction permettant de générer le formulaire de suppression d'un quizz
 function getQuizzDeleteForm($database, $id){
 
+    # On récupère les informations du quizz que l'on souhaite delete
     $quizz = $database -> select('quizz',[
         'quizz_id',
         'quizz_name'
@@ -129,10 +159,13 @@ function getQuizzDeleteForm($database, $id){
         'quizz_id' => $id
     ]);
 
+    # On récupères quelques informations à afficher dans notre interface
     $count = $database -> count('quizz_users_scores',[
         'quizz_foreign_id' => $quizz[0]['quizz_id']
     ]);
 
+    # et ensuite on va venir générer le formulaire de suppréssion
+    # le input type hidden nous permet d'identifier quel quizz on souhaite supprimer lors de l'envoie du formulaire en contenant l'id du quizz en question
     echo '  <div class="admin_modif_form_wrapper">
                 <h1 class="modif_form_heading">Êtes-vous sûr de vouloir supprimer ce quizz ? <br></h1>
             </div>
@@ -157,12 +190,16 @@ function getQuizzDeleteForm($database, $id){
 
 };
 
+# Fonction permettant de générer le formulaire d'ajout d'un quizz
 function getNewQuizzForm($database){
+
+    # On vient récupérer les différentes catégories pour générer notre select
     $categories = $database->select('quizz_categorie',[
         'categorie_id',
         'categorie_name'
     ]);
 
+    # Et on affiche notre formulaire
     echo '  <div class="admin_modif_form_wrapper">
                 <h1 class="modif_form_heading">Créer un nouveau quizz</h1>
             </div>
@@ -195,7 +232,9 @@ function getNewQuizzForm($database){
             </div>';
 }
 
+# Fonction permettant de créer un nouveau quizz en BDD
 function newQuizz($database,$name,$description,$category){
+    
     try{
         $database -> insert('quizz',[
             'quizz_name' => htmlspecialchars($name),
@@ -210,9 +249,23 @@ function newQuizz($database,$name,$description,$category){
     }
 }
 
+# Fonction permettant de supprimer un quizz en BDD
 function deleteQuizz($database, $id){
 
     try{
+
+        # ON DELETE TOUTES LES LIGNES DES AUTRES TABLES QUI SONT DEPENDANT DU QUIZZ
+        $database -> delete('quizz_users_scores',[
+            'quizz_forein_id' => $id
+        ]);
+
+        echo '<h1>Les scores ont bien été supprimées</h1>';
+
+        $database -> delete('quizz_questions',[
+            'categorie_foreign_id' => $id
+        ]);
+
+        echo '<h1>Les questions ont bien été supprimées</h1>';
 
         $database -> delete('quizz',[
             'quizz_id' => $id
@@ -233,6 +286,7 @@ function deleteQuizz($database, $id){
 
 };
 
+# Fonction permettant de modifier un quizz en bdd
 function modifQuizz($database, $id, $name, $description, $category){
     try{
         $database -> update('quizz',[
@@ -262,7 +316,7 @@ function getCategoryList($database){
     ]);
 
     echo '  <div class="button-wrapper">
-                <a href="http://'.$_SERVER['SERVER_NAME'].':8888/backoffice.php?nouvelle_categorie=true" class="new-button">NOUVELLE CATEGORIE</a>
+                <a href="http://'.$_SERVER['SERVER_NAME'].'/backoffice.php?nouvelle_categorie=true" class="new-button">NOUVELLE CATEGORIE</a>
             </div>';
 
 
@@ -362,18 +416,29 @@ function newCategory($database, $name){
 
 function deleteCategory($database, $id){
     try{
+        $quizz_id = $database -> select('quizz',[
+            'quizz_id'
+        ],[
+            'categorie_foreign_id' => $id
+        ]);
 
         $database -> delete('quizz',[
             'categorie_foreign_id' => $id
         ]);
 
-        echo 'quizz suprimés';
+        echo '<h1>Les quizz ont bien été supprimés</h1>';
 
         $database -> delete('quizz_questions',[
             'categorie_foreign_id' => $id
         ]);
 
-        echo 'question supprimés';
+        echo '<h1>Les questions ont bien été supprimées</h1>';
+
+        $database -> delete('quizz_users_scores',[
+            'quizz_foreign_id' => $quizz_id[0]['quizz_id']
+        ]);
+
+        echo '<h1>Les scores ont bien été supprimés</h1>';
 
         $database -> delete('quizz_categorie',[
             'categorie_id' => $id
@@ -401,7 +466,7 @@ function getQuestionList($database){
     ]);
 
     echo '  <div class="button-wrapper">
-                <a href="http://'.$_SERVER['SERVER_NAME'].':8888/backoffice.php?nouvelle_question=true" class="new-button">NOUVELLE QUESTION</a>
+                <a href="http://'.$_SERVER['SERVER_NAME'].'/backoffice.php?nouvelle_question=true" class="new-button">NOUVELLE QUESTION</a>
             </div>';
 
     setList($headers, $headers_class);

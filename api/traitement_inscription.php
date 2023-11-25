@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     // Connexion à la base de données
-    $connexion = mysqli_connect("mysql-forza-mts.alwaysdata.net", "forza-mts", "3i7od8pSY3@NmAE4", "forza-mts_final");
+    $connexion = mysqli_connect("mysql-forza-mts.alwaysdata.net", "forza-mts", "tJG5jzHL4#MJz!MH", "forza-mts_final");
 
     if (!$connexion) {
         die("La connexion à la base de données a échoué : " . mysqli_connect_error());

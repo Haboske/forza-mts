@@ -20,7 +20,7 @@
 
 <body class="body-2">
   <section class="main-section connexion">
-    <div class="connexion-wrapper">
+    <div class="connexion-wrapper background-color-blue">
       <div class="connexion-heading-wrapper">
         <h1 class="connexion-heading">Se connecter 🕹️</h1>
         <div class="connexion-desc">Pour accéder à nos quizz, vous n&#x27;avez pas le choix que de vous connecter ! Comme ça on peut récupérer absolument toute vos données 🥸</div>

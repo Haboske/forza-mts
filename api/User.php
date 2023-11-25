@@ -11,6 +11,7 @@ function getUserQuizzList($database){
 
         foreach ($quizzList as $quizz){
 
+            # On récupère le nom de la catégorie auquel notre quizz est associé
             $categorie = $database -> select('quizz_categorie',[
                 'categorie_name',
             ],[
@@ -37,8 +38,10 @@ function getUserQuizzList($database){
         
 }
 
+# Fonction permettant de générer le quizz séléctionnés
 function generateQuizz($database, $categorie_id){
 
+    # On récupère les questions du quizz séléctionnés grâce à la catégories auxquels ils sont associés
     $questionList = $database -> select('quizz_questions',[
         'question_id',
         'question_label',
@@ -55,12 +58,15 @@ function generateQuizz($database, $categorie_id){
     $iterator = 0;
     $questionI = 1;
 
+    # On créer une variable qui va contenir toutes les bonnes réponses du quizz pour après l'envoyer et les traiter en javascript
     $goodanswers_json = array();
     foreach($questionList as $question)
     {
 
-
+        # On insère la bonnes réponses dans notre variable
         $good_answer = intval($question['question_good_ans']);
+
+        # Et on vient déterminer si notre question est un QCU ou QCM grâces au nombres de bonnes réponses présentes dans notre variable
         if($good_answer >= 1 && $good_answer <= 4){
             $questionQCUorQCM = 'QCU';
             $questionType = 'radio';
@@ -105,9 +111,11 @@ function generateQuizz($database, $categorie_id){
             }
         };
 
+        # On insère les bonnes réponses dans notre variable qu'on enverra en js
         $goodanswers_json[$questionI]['question_number']=$questionI;
         $goodanswers_json[$questionI]['question_goodrep']=$question['question_good_ans'];
 
+        # On imprime notre question en limitant le nombre de réponses par 10
         if($questionI <= 10)
         {
             echo '
@@ -184,6 +192,7 @@ function generateQuizz($database, $categorie_id){
         
     }
 
+    # On retourne notre variable qu'on enverra en JSON mais pas dans cette fonction
     return $goodanswers_json;
     
 

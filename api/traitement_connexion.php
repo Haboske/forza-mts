@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = secureDonnee($password);
 
     // Connexion à la base de données
-    $connexion = mysqli_connect("mysql-forza-mts.alwaysdata.net", "forza-mts", "3i7od8pSY3@NmAE4", "forza-mts_final");
+    $connexion = mysqli_connect("mysql-forza-mts.alwaysdata.net", "forza-mts", "tJG5jzHL4#MJz!MH", "forza-mts_final");
 
     if (!$connexion) {
         die("La connexion à la base de données a échoué : " . mysqli_connect_error());
@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if($_SESSION['user_isadmin'] == 1)
             {
-                header('Location: https://localhost:8888/backoffice.php?quizz_list=true');
+                header('Location: http://forza-mts.alwaysdata.net/backoffice.php?quizz_list=true');
             }
             else
             {

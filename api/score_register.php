@@ -1,7 +1,8 @@
 <?php
-    require 'Config.php';
 
-    echo 'hello';
+    # Fichier permettant d'insérer un score en BDD grâce à la requete GET
+
+    require 'Config.php';
 
     $database -> insert('quizz_users_scores',[
         'player_foreign_id' => $_GET['player_id'],

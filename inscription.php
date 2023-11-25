@@ -22,7 +22,7 @@
 <body class="body-2">
 
   <section class="main-section connexion">
-    <div class="connexion-wrapper">
+    <div class="connexion-wrapper background-color-green">
       <div class="connexion-heading-wrapper"><img src="content/SVG/logo.svg" loading="lazy" alt="" class="connexion_logo">
         <h1 class="connexion-heading">S&#x27;inscrire 🎮</h1>
         <div class="connexion-desc">Pour accéder à nos quizz, vous n&#x27;avez pas le choix que de vous inscrire ! Comme ça on peut observer vos stats 🥸</div>
